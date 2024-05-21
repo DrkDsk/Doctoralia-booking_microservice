@@ -61,5 +61,4 @@ public class BookingController {
         return "Fallback Stock" + exception.getMessage();
     }
 
-
 }
