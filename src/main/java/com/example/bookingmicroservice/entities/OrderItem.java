@@ -4,11 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "order_items")
@@ -30,12 +25,4 @@ public class OrderItem {
     private Item item;
 
     private Integer itemQuantity;
-
-    @Column(name = "`created_at`")
-    @CreationTimestamp
-    private Date timestampCreatedAt;
-
-    @Column(name = "`updated_at`")
-    @CreationTimestamp
-    private Date timestampUpdatedAt;
 }

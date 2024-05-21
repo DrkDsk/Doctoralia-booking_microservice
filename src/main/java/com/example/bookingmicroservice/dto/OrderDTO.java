@@ -1,15 +1,16 @@
 package com.example.bookingmicroservice.dto;
 
-import com.example.bookingmicroservice.entities.Item;
-import com.example.bookingmicroservice.entities.OrderItem;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class OrderDTO {
+    private Long id;
+    private String orderNo;
+    private BigDecimal price;
     private List<OrderItemDTO> itemList;
 }

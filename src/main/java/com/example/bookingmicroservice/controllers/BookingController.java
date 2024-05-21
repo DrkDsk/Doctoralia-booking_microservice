@@ -1,22 +1,18 @@
 package com.example.bookingmicroservice.controllers;
 
 import com.example.bookingmicroservice.client.StockClient;
+import com.example.bookingmicroservice.dto.CreateOrderDTO;
 import com.example.bookingmicroservice.dto.OrderDTO;
-import com.example.bookingmicroservice.dto.OrderItemDTO;
 import com.example.bookingmicroservice.entities.Order;
-import com.example.bookingmicroservice.exceptions.OrderProcessingException;
 import com.example.bookingmicroservice.resources.ApiResource;
 import com.example.bookingmicroservice.services.OrderService;
-import lombok.Getter;
+import jakarta.validation.Valid;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
 @RestController
 @RequestMapping("api/booking")
 @NoArgsConstructor
@@ -38,9 +34,9 @@ public class BookingController {
 
     @PostMapping("/order")
     //@CircuitBreaker(name = "saveOrder", fallbackMethod = "fallbackSaveOrder")
-    public ApiResource<Order> saveOrder(@RequestBody OrderDTO orderDTO) {
+    public ApiResource<OrderDTO> saveOrder(@Valid @RequestBody CreateOrderDTO createOrderDTO) {
 
-        List<OrderItemDTO> itemsNotExists = orderDTO.getItemList().stream().filter(item ->
+        /*List<OrderItemDTO> itemsNotExists = orderDTO.getItemList().stream().filter(item ->
                 !stockClient.available(
                         item.getCode(),
                         item.getItemQuantity()
@@ -48,14 +44,16 @@ public class BookingController {
 
         if (!itemsNotExists.isEmpty()) {
             throw new OrderProcessingException("Stock not available to these items", itemsNotExists);
-        }
+        }*/
 
-        Order order = orderService.createOrder(orderDTO);
+        Order order = orderService.createOrder(createOrderDTO);
+        OrderDTO orderCreatedDTO = orderService.convertOrderToDTO(order);
+        orderCreatedDTO.setItemList(createOrderDTO.getItemList());
 
-        return new ApiResource.Builder<Order>()
+        return new ApiResource.Builder<OrderDTO>()
                 .success(true)
                 .message("order created successfully")
-                .data(order)
+                .data(orderCreatedDTO)
                 .build();
     }
 

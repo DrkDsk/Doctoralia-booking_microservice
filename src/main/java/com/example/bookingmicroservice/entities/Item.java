@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -22,12 +19,4 @@ public class Item {
     private Long id;
     private String code;
     private BigDecimal price;
-
-    @Column(name = "`created_at`")
-    @CreationTimestamp
-    private Date timestampCreatedAt;
-
-    @Column(name = "`updated_at`")
-    @CreationTimestamp
-    private Date timestampUpdatedAt;
 }
